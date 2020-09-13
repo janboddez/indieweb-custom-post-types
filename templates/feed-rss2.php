@@ -1,5 +1,17 @@
 <?php
 /**
+ * WordPress's RSS2 feed template, lifted pretty much straight from WP Core.
+ *
+ * @package IWCPT
+ */
+
+// Prevent direct access.
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+// @codingStandardsIgnoreStart
+/**
  * RSS2 Feed Template for displaying RSS2 Posts feed.
  *
  * @package WordPress
@@ -141,3 +153,5 @@ do_action( 'rss_tag_pre', 'rss2' );
 	<?php endwhile; ?>
 </channel>
 </rss>
+<?php
+// @codingStandardsIgnoreEnd
