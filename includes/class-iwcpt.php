@@ -46,10 +46,11 @@ class IWCPT {
 		register_deactivation_hook( dirname( dirname( __FILE__ ) ) . '/indieweb-custom-post-types.php', array( $this, 'deactivate' ) );
 
 		add_action( 'init', array( $this, 'register_post_types' ) );
+		add_action( 'init', array( $this, 'register_taxonomies' ), 9 );
 
-		add_filter( 'wp_insert_post_data', array( $this, 'set_cpt' ), 10, 2 );
-		add_filter( 'wp_insert_post_data', array( $this, 'set_title' ), 11, 2 );
-		add_filter( 'wp_insert_post_data', array( $this, 'set_slug' ), 12, 2 );
+		add_filter( 'micropub_post_type',  array( $this, 'set_post_type' ), 10, 2 );
+		add_filter( 'wp_insert_post_data', array( $this, 'set_title' ), 10, 2 );
+		add_filter( 'wp_insert_post_data', array( $this, 'set_slug' ), 11, 2 );
 
 		remove_all_actions( 'do_feed_rss2' );
 		add_action( 'do_feed_rss2', array( $this, 'rss' ), 20 );
@@ -84,8 +85,6 @@ class IWCPT {
 				),
 				'supports'          => array( 'author', 'title', 'editor', 'thumbnail', 'custom-fields', 'comments' ),
 				'menu_icon'         => 'dashicons-format-status',
-				// phpcs:ignore
-				// 'taxonomies'        => array( 'category', 'post_tag' ),
 			)
 		);
 
@@ -118,10 +117,42 @@ class IWCPT {
 		);
 	}
 
+	public function register_taxonomies() {
+		$args = array(
+			'labels'                => array(
+				'name'                       => __( 'Tags', 'taxonomy general name', 'iwcpt' ),
+				'singular_name'              => __( 'Tag', 'taxonomy singular name', 'iwcpt' ),
+				'search_items'               => __( 'Search Tags', 'iwcpt' ),
+				'popular_items'              => __( 'Popular Tags', 'iwcpt' ),
+				'all_items'                  => __( 'All Tags', 'iwcpt' ),
+				'edit_item'                  => __( 'Edit Tag', 'iwcpt' ),
+				'update_item'                => __( 'Update Tag', 'iwcpt' ),
+				'add_new_item'               => __( 'Add New Tag', 'iwcpt' ),
+				'new_item_name'              => __( 'New Tag Name', 'iwcpt' ),
+				'separate_items_with_commas' => __( 'Separate tags with commas', 'iwcpt' ),
+				'add_or_remove_items'        => __( 'Add or remove tags', 'iwcpt' ),
+				'choose_from_most_used'      => __( 'Choose from the most used tags', 'iwcpt' ),
+				'not_found'                  => __( 'No tags found.', 'iwcpt' ),
+			),
+			'hierarchical'          => false,
+			'show_ui'               => true,
+			'show_admin_column'     => true,
+			'update_count_callback' => '_update_post_term_count',
+			'query_var'             => true,
+			'rewrite'               => array(
+				'slug' => __( 'notes/tag', 'iwcpt' ),
+				'with_front' => false,
+			),
+		);
+
+		register_taxonomy( 'iwcpt_tag', array( 'iwcpt_note' ), $args );
+	}
+
 	/**
 	 * Registers permalinks on activation.
 	 */
 	public function activate() {
+		$this->register_taxonomies();
 		$this->register_post_types();
 		flush_rewrite_rules();
 	}
@@ -136,31 +167,23 @@ class IWCPT {
 	/**
 	 * Maps Micropub entries to a Custom Post Type.
 	 *
-	 * @param array $data    Filtered data.
-	 * @param array $postarr Original data, mostly.
+	 * @param string $post_type Post type.
+	 * @param array  $input     Input data.
 	 */
-	public function set_cpt( $data, $postarr ) {
-		if ( ! empty( $postarr['ID'] ) ) {
-			// Not a new post. Bail.
-			return $data;
+	public function set_post_type( $post_type, $input ) {
+		if ( ! empty( $input['properties']['like-of'][0] ) ) {
+			$post_type = 'iwcpt_like';
+		} elseif ( ! empty( $input['properties']['bookmark-of'][0] ) ) {
+			$post_type = 'iwcpt_note';
+		} elseif ( ! empty( $input['properties']['repost-of'][0] ) ) {
+			$post_type = 'iwcpt_note';
+		} elseif ( ! empty( $input['properties']['in-reply-to'][0] ) && false === stripos( $input['properties']['in-reply-to'][0], $post_content ) ) {
+			$post_type = 'iwcpt_note';
+		} elseif ( ! empty( $input['properties']['content'][0] ) && empty( $input['post_title'] ) ) {
+			$post_type = 'iwcpt_note';
 		}
 
-		// Look for Microformats metadata.
-		if ( ! empty( $postarr['meta_input']['mf2_like-of'][0] ) ) {
-			// Like.
-			$data['post_type'] = 'iwcpt_like';
-		} elseif ( ! empty( $postarr['meta_input']['mf2_bookmark-of'][0] ) ) {
-			// Bookmark.
-			$data['post_type'] = 'iwcpt_note'; // That's right! Bookmarks are notes, too!
-		} elseif ( ! empty( $postarr['meta_input']['mf2_repost-of'][0] ) ) {
-			// Repost.
-			$data['post_type'] = 'iwcpt_note';
-		} elseif ( ! empty( $postarr['meta_input']['mf2_content'][0] ) && empty( $data['post_title'] ) ) {
-			// Note. Affects replies without a title, too.
-			$data['post_type'] = 'iwcpt_note';
-		}
-
-		return $data;
+		return $post_type;
 	}
 
 	/**
@@ -205,17 +228,17 @@ class IWCPT {
 	 * @param array $postarr Original data, mostly.
 	 */
 	public function set_title( $data, $postarr ) {
-		if ( ! empty( $postarr['ID'] ) ) {
-			// Not a new post. Bail.
-			return $data;
-		}
+		// if ( ! empty( $postarr['ID'] ) ) {
+		// 	// Not a new post. Bail.
+		// 	return $data;
+		// }
 
 		if ( ! in_array( $data['post_type'], array( 'iwcpt_like', 'iwcpt_note' ), true ) ) {
 			return $data;
 		}
 
-		if ( ! empty( $postarr['meta_input']['mf2_bookmark-of'][0] ) && apply_filters( 'iwcpt_ignore_bookmark_titles', true ) ) {
-			// Leave bookmarks alone. Use `add_filter( 'iwcpt_ignore_bookmark_titles', '__return_false' );` to reverse.
+		if ( ! empty( $postarr['meta_input']['mf2_bookmark-of'][0] ) && ! empty( $data['post_title'] ) && apply_filters( 'iwcpt_ignore_bookmark_titles', true ) ) {
+			// Leave _non-empty_ bookmark titles alone. Use `add_filter( 'iwcpt_ignore_bookmark_titles', '__return_false' );` to reverse.
 			return $data;
 		}
 
@@ -224,7 +247,7 @@ class IWCPT {
 		 * content.
 		 */
 
-		$title = wp_strip_all_tags( $data['post_content'] );
+		$title = trim( wp_strip_all_tags( $data['post_content'] ) );
 
 		/*
 		 * Some default "filters." Use the `iwcpt_title` filter to undo or

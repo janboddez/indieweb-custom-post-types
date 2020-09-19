@@ -2,6 +2,7 @@
 /**
  * Plugin Name: IndieWeb Custom Post Types
  * Description: Easily "IndieWebify" your WordPress site.
+ * GitHub Plugin URI: https://github.com/janboddez/indieweb-custom-post-types
  * Author:      Jan Boddez
  * Author URI:  https://janboddez.tech/
  * License: GNU General Public License v3
