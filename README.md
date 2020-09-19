@@ -53,7 +53,7 @@ add_filter( 'iwcpt_title', function( $filtered_title, $original_title, $post_con
 ```
 
 ### Altogether remove automatic titles
-Easy! Add `remove_filter( 'wp_insert_post_data', array( IWCPT\IWCPT::get_instance(), 'set_title' ), 11 );` to, e.g., your theme's `functions.php`.
+Easy! Add `remove_filter( 'wp_insert_post_data', array( IWCPT\IWCPT::get_instance(), 'set_title' ), 10 );` to, e.g., your theme's `functions.php`.
 
 ### Do not autogenerate slugs
-This plugin will autogenerate random slugs for the CPTs it introduces. If you'd rather set slugs by hand, or go with WordPress's default behavior, use `remove_filter( 'wp_insert_post_data', array( IWCPT\IWCPT::get_instance(), 'set_slug' ), 12 );`.
+This plugin will autogenerate random slugs for the CPTs it introduces. If you'd rather set slugs by hand, or go with WordPress's default behavior, use `remove_filter( 'wp_insert_post_data', array( IWCPT\IWCPT::get_instance(), 'set_slug' ), 11 );`.
