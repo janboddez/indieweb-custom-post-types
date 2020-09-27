@@ -39,7 +39,7 @@ That is, Likes will end up in WP Admin's Likes section, and Notes (and the other
 ## Filters!
 Filter hooks allow you to completely modify or undo (part of) this plugin's behavior.
 
-_Side note, but an important one: none of this applies to "long-form" content (or replies, or anything), especially when it **wasn't** posted through Micropub! That is, **actual** WordPress posts (Articles, in IndieWeb jargon) that happen to contain, e.g., a backlink with a `u-bookmark-of` class aren't at all affected by this plugin in the first place. They'll show up in your Article feeds, and microformats parsers will consider them a bookmark, like they should._
+_Side note, but an important one: none of this applies to "long-form" content (or replies, or anything), especially when it **wasn't** posted through Micropub! That is, **actual** WordPress posts (Articles, in IndieWeb jargon) that happen to contain, e.g., a backlink with a `u-bookmark-of` class aren't at all affected by this plugin in the first place. They'll show up in your Article feeds, and Microformats parsers will consider them a bookmark, like they should._
 
 ### Autogenerate (and hide) bookmark titles
 Short-form content is often titleless. This plugin, however, autogenerates Note (and Like) titles that greatly simplify browsing WP Admin.
