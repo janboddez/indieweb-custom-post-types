@@ -16,6 +16,7 @@ IndieWeb Custom Post Types does exactly 5 things:
 
 And the good thing: all of these can be disabled, too.
 
+## The CPTs, and Microformats
 This plugin registers both a **Note** and a **Like** CPT. (At this time, it does not separately define things like Replies, Bookmarks, RSVPs, etc.) These, on their own, don't really do much.
 
 Nevertheless, you'll find that using just a tiny bit of in-post markup, you _are_ able to create, as far as _Microformats parsers_ are concerned, all of the post types below (and probably more), on the fly:
