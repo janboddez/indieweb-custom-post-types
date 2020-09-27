@@ -10,11 +10,11 @@ Works best with the IndieAuth and Micropub plugins, and a microformats-aware the
 This plugin registers both a **Note** and a **Like** CPT. (At this time, it does not separately define things like Replies, Bookmarks, RSVPs, etc.) These, on their own, don't really do much.
 
 Nevertheless, you'll find that using just a tiny bit of in-post markup, you _are_ able to create, as far as _Microformats parsers_ are concerned, all of the post types below (and probably more), on the fly:
-- 📔 note
 - 📄 article
+- 📔 note
+- 👍 like
 - 💬 reply
 - 🔖 bookmark
-- 👍 like
 - 📷 photo
 
 _Somewhat unfortunately, adding custom classes to inline elements like hyperlinks requires you hop into either the "Edit as HTML" (Gutenberg) or "Text" (Classic Editor) view when editing a post. That said, HTML is fun, and powerful!_
@@ -24,7 +24,7 @@ If you're going to be posting the bulk of your microblog content (i.e., Notes an
 
 The Micropub plugin already adds the necessary in-post HTML (all filterable, of course), and this plugin takes it from there.
 
-That is, Likes will end up in WP Admin's Likes section, and Notes (and the other types above, _as long as they are titleless_) under, uh, Notes. Neat!
+That is, Likes will end up in WP Admin's Likes section, and Notes (and the other types above, _except Articles_) under, uh, Notes. Neat!
 
 ## Filters!
 Filter hooks allow you to completely modify or undo (part of) this plugin's behavior.
