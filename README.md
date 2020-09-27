@@ -12,7 +12,7 @@ IndieWeb Custom Post Types does exactly 5 things:
 - Hook into the Micropub plugin to use these CPTs
 - Automatically generate titles for most short-form content (you'll probably want to hide these on your site's front end, though)
 - Create random slugs for short-form content
-- Remove the `title` attribute from short-form RSS items
+- Remove the `title` attribute from most short-form RSS items
 
 And the good thing: all of these can be disabled, too.
 
