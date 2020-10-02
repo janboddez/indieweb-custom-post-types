@@ -4,6 +4,8 @@ Use short-form post types to IndieWebify your WordPress site
 ## TL;DR
 Compared to other solutions, this plugin (1) allows for maximum flexibilty, and (2) leads to a greatly decluttered WP Admin Posts screen.
 
+It does, however, require _some_ knowledge of HTML and Microformats (namely, [microformats2](http://microformats.org/wiki/h-entry)).
+
 Works best with the IndieAuth and Micropub plugins, and a microformats-aware theme.
 
 ## How this works
@@ -14,7 +16,7 @@ IndieWeb Custom Post Types does exactly 5 things:
 - Create random slugs for short-form content
 - Remove the `title` attribute from most short-form RSS items
 
-And the good thing: all of these can be disabled, too.
+And the good thing: **all of these can be disabled**, too.
 
 ## The CPTs, and Microformats
 This plugin registers both a **Note** and a **Like** CPT. (At this time, it does not separately define things like Replies, Bookmarks, RSVPs, etc.) These, on their own, don't really do much.
