@@ -46,7 +46,7 @@ _Side note, but an important one: none of this applies to "long-form" content (o
 ### Autogenerate (and hide) bookmark titles
 Short-form content is often titleless. This plugin, however, autogenerates Note (and Like) titles that greatly simplify browsing WP Admin.
 
-Your theme will have to make sure they're correctly "hidden" on the front end, though! (Note titles accidently given a `p-name` class will cause Microformats parsers to treat Notes like Articles, and something similar goes for Notes in RSS.)
+Your theme will have to make sure they're correctly ["hidden" on the front end](http://microformats.org/wiki/h-entry#p-name_of_a_note), though! (Note titles accidently given a `p-name` class will cause Microformats parsers to treat Notes like Articles, and something similar goes for Notes in RSS.)
 
 The most common RSS feeds, however, are taken care of by this plugin: Note titles are automatically scrubbed from them. (That is, if you're not already using a modified RSS template.)
 
