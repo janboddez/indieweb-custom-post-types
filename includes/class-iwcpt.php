@@ -247,15 +247,16 @@ class IWCPT {
 		 * content.
 		 */
 
-		$title = trim( wp_strip_all_tags( $data['post_content'] ) );
+		$title = wp_unslash( data['post_content'] );
 
 		/*
 		 * Some default "filters." Use the `iwcpt_title` filter to undo or
 		 * extend.
 		 */
 
-		// Avoid double-encoded characters. Note that tags have already been
-		// removed.
+		// Remove HTML.
+		$title = trim( wp_strip_all_tags( $title ) );
+		// Avoid double-encoded characters.
 		$title = html_entity_decode( $title, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
 
 		// Wrap lines that start with `> ` in quotes.
@@ -275,7 +276,7 @@ class IWCPT {
 		$title = str_replace( '… ...', '...', $title );
 
 		// Define a filter that allows others to do something else entirely.
-		$data['post_title'] = apply_filters( 'iwcpt_title', $title, $data['post_title'], $data['post_content'] );
+		$data['post_title'] = wp_slash( apply_filters( 'iwcpt_title', $title, $data['post_title'], $data['post_content'] ) );
 
 		return $data;
 	}
