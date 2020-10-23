@@ -226,6 +226,8 @@ class IWCPT {
 	 *
 	 * @param array $data    Filtered data.
 	 * @param array $postarr Original data, mostly.
+	 *
+	 * @return array Filtered data.
 	 */
 	public function set_title( $data, $postarr ) {
 		// if ( ! empty( $postarr['ID'] ) ) {
@@ -275,8 +277,10 @@ class IWCPT {
 		$title = str_replace( '... ...', '...', $title );
 		$title = str_replace( '… ...', '...', $title );
 
+		$title = wp_slash( $title );
+
 		// Define a filter that allows others to do something else entirely.
-		$data['post_title'] = wp_slash( apply_filters( 'iwcpt_title', $title, $data['post_title'], $data['post_content'] ) );
+		$data['post_title'] = apply_filters( 'iwcpt_title', $title, $data['post_title'], $data['post_content'] );
 
 		return $data;
 	}
