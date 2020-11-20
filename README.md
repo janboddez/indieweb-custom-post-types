@@ -21,7 +21,7 @@ And the good thing: **all of these can be disabled**, too.
 ## The CPTs, and Microformats
 This plugin registers both a **Note** and a **Like** CPT. (At this time, it does not separately define things like Replies, Bookmarks, RSVPs, etc.) These, on their own, don't really do much.
 
-Nevertheless, you'll find that using just a tiny bit of in-post markup, you _are_ able to create, as far as _Microformats parsers_ are concerned, all of the post types below (and probably more), on the fly:
+Nevertheless, you'll find that using just a tiny bit of in-post markup, you _are_ able to create, as far as _Microformats parsers_ are concerned, all of the post types below (and probably more), **on the fly**:
 - 📄 article
 - 📔 note
 - 👍 like
@@ -41,7 +41,12 @@ That is, Likes will end up in WP Admin's Likes section, and Notes (and the other
 ## Filters!
 Filter hooks allow you to completely modify or undo (part of) this plugin's behavior.
 
-_Side note, but an important one: none of this applies to "long-form" content (or replies, or anything), especially when it **wasn't** posted through Micropub! That is, **actual** WordPress posts (Articles, in IndieWeb jargon) that happen to contain, e.g., a backlink with a `u-bookmark-of` class aren't at all affected by this plugin in the first place. They'll show up in your Article feeds, and Microformats parsers will consider them a bookmark, like they should._
+_Side note, but an important one: none of this applies to "long-form" content (or replies, or anything), especially when it **wasn't** posted through Micropub! That is, **actual** WordPress posts (Articles, in IndieWeb jargon) that happen to contain, e.g., a backlink with a `u-bookmark-of` class aren't at all affected by this plugin. They'll show up in your Article feeds, and Microformats parsers will consider them a bookmark, [like they should](https://www.w3.org/TR/post-type-discovery/)._
+
+From that last link (emphasis mine):
+> Post Type Discovery specifies algorithms for determining the type of a post by what properties it has and potentially what value(s) they have, which _helps avoid the need for explicit post types_ that are being abandoned by modern post creation UIs.
+
+You shouldn't have to explicitly assign a certain taxonomy (or post type) for a post to "double" as a reply, bookmark, or what not. The Article–Note distinction (i.e., title vs. no title), though, can be quite useful (I find).
 
 ### Autogenerate (and hide) bookmark titles
 Short-form content is often titleless. This plugin, however, autogenerates Note (and Like) titles that greatly simplify browsing WP Admin.
