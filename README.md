@@ -4,7 +4,7 @@ Use short-form post types to IndieWebify your WordPress site
 ## TL;DR
 Compared to solutions that rely on custom taxonomies (only), this plugin (1) allows for maximum flexibility, and (2) leads to a greatly decluttered WP Admin Posts screen.
 
-It does, however, require _some_ knowledge of HTML and Microformats (namely, [microformats2](http://microformats.org/wiki/h-entry)).
+It does, however, require _some_ knowledge of HTML and Microformats (namely, [microformats2](http://microformats.org/wiki/h-entry)). (Microformats blocks may eventually solve this.)
 
 Works best with the IndieAuth and Micropub plugins, and a microformats-aware theme.
 
