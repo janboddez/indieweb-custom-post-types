@@ -14,7 +14,7 @@ IndieWeb Custom Post Types does exactly 5 things:
 - Hook into the Micropub plugin to use these CPTs
 - Automatically generate titles for most short-form content (you'll probably want to hide these on your site's front end, though)
 - Create random slugs for short-form content
-- Remove the `title` attribute from most short-form RSS items
+- Remove the `title` attribute from most short-form RSS2 items (it's up to you to deal with other feed formats, however)
 
 And the good thing: **all of these can be disabled**, too.
 
@@ -41,7 +41,7 @@ That is, Likes will end up in WP Admin's Likes section, and Notes (and the other
 ## Filters!
 Filter hooks allow you to completely modify or undo (part of) this plugin's behavior.
 
-_Side note, but an important one: none of this applies to "long-form" content (or replies, or anything), especially when it **wasn't** posted through Micropub! That is, **actual** WordPress posts (Articles, in IndieWeb jargon) that happen to contain, e.g., a backlink with a `u-bookmark-of` class aren't at all affected by this plugin. They'll show up in your Article feeds, and Microformats parsers will consider them a bookmark, [like they should](https://www.w3.org/TR/post-type-discovery/)._
+_Side note, but an important one: none of this applies to "long-form" content, especially when it **wasn't** posted through Micropub! That is, **actual** WordPress posts (Articles, in IndieWeb jargon) that happen to contain, e.g., a backlink with a `u-bookmark-of` class aren't at all affected by this plugin. They'll show up in your Article feeds, and Microformats parsers will consider them a bookmark, [like they should](https://www.w3.org/TR/post-type-discovery/)._
 
 From that last link (emphasis mine):
 > Post Type Discovery specifies algorithms for determining the type of a post by what properties it has and potentially what value(s) they have, which _helps avoid the need for explicit post types_ that are being abandoned by modern post creation UIs.
