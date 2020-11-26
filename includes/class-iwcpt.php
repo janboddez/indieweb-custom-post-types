@@ -238,7 +238,7 @@ class IWCPT {
 		 * content.
 		 */
 
-		$title = wp_unslash( data['post_content'] );
+		$title = wp_unslash( $data['post_content'] );
 
 		/*
 		 * Some default "filters." Use the `iwcpt_title` filter to undo or
