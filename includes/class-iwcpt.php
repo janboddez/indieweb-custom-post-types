@@ -37,7 +37,7 @@ class IWCPT {
 		add_action( 'init', array( $this, 'register_post_types' ) );
 		add_action( 'init', array( $this, 'register_taxonomies' ), 9 );
 
-		add_filter( 'micropub_post_type',  array( $this, 'set_post_type' ), 10, 2 );
+		add_filter( 'micropub_post_type', array( $this, 'set_post_type' ), 10, 2 );
 		add_filter( 'wp_insert_post_data', array( $this, 'set_title' ), 10, 2 );
 		add_filter( 'wp_insert_post_data', array( $this, 'set_slug' ), 11, 2 );
 
