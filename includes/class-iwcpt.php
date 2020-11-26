@@ -1,5 +1,7 @@
 <?php
 /**
+ * Main plugin class.
+ *
  * @package IWCPT
  */
 
@@ -10,14 +12,16 @@ namespace IWCPT;
  */
 class IWCPT {
 	/**
-	 * This plugin's single instance.
+	 * This class's single instance.
 	 *
 	 * @var IWCPT $instance Plugin instance.
 	 */
 	private static $instance;
 
 	/**
-	 * Returns the single instance.
+	 * Returns the single instance of this class.
+	 *
+	 * @return IWCPT This class's single instance.
 	 */
 	public static function get_instance() {
 		if ( null === self::$instance ) {
@@ -46,7 +50,7 @@ class IWCPT {
 	}
 
 	/**
-	 * Registers custom post types and updates permalinks after theme activation.
+	 * Registers custom post types.
 	 */
 	public function register_post_types() {
 		// Notes.
@@ -106,11 +110,14 @@ class IWCPT {
 		);
 	}
 
+	/**
+	 * Registers custom taxonomies.
+	 */
 	public function register_taxonomies() {
 		$args = array(
 			'labels'                => array(
-				'name'                       => __( 'Tags', 'taxonomy general name', 'iwcpt' ),
-				'singular_name'              => __( 'Tag', 'taxonomy singular name', 'iwcpt' ),
+				'name'                       => __( 'Tags', 'iwcpt' ),
+				'singular_name'              => __( 'Tag', 'iwcpt' ),
 				'search_items'               => __( 'Search Tags', 'iwcpt' ),
 				'popular_items'              => __( 'Popular Tags', 'iwcpt' ),
 				'all_items'                  => __( 'All Tags', 'iwcpt' ),
@@ -129,7 +136,7 @@ class IWCPT {
 			'update_count_callback' => '_update_post_term_count',
 			'query_var'             => true,
 			'rewrite'               => array(
-				'slug' => __( 'notes/tag', 'iwcpt' ),
+				'slug'       => __( 'notes/tag', 'iwcpt' ),
 				'with_front' => false,
 			),
 		);
@@ -156,8 +163,9 @@ class IWCPT {
 	/**
 	 * Maps Micropub entries to a Custom Post Type.
 	 *
-	 * @param string $post_type Post type.
-	 * @param array  $input     Input data.
+	 * @param  string $post_type Post type.
+	 * @param  array  $input     Input data.
+	 * @return string            Post type slug.
 	 */
 	public function set_post_type( $post_type, $input ) {
 		if ( ! empty( $input['properties']['like-of'][0] ) ) {
@@ -178,8 +186,9 @@ class IWCPT {
 	/**
 	 * Sets a random slug for short-form content.
 	 *
-	 * @param array $data    Filtered data.
-	 * @param array $postarr Original data, mostly.
+	 * @param  array $data    Filtered data.
+	 * @param  array $postarr Original data.
+	 * @return array          Updated (slashed) data.
 	 */
 	public function set_slug( $data, $postarr ) {
 		if ( ! empty( $postarr['ID'] ) ) {
@@ -199,7 +208,7 @@ class IWCPT {
 			$slug = bin2hex( openssl_random_pseudo_bytes( 5 ) );
 
 			// Check uniqueness.
-			$result = $wpdb->get_var( $wpdb->prepare( "SELECT post_name FROM $wpdb->posts WHERE post_name = %s LIMIT 1", $slug ) ); // phpcs:ignore
+			$result = $wpdb->get_var( $wpdb->prepare( "SELECT post_name FROM $wpdb->posts WHERE post_name = %s LIMIT 1", $slug ) ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery,WordPress.DB.DirectDatabaseQuery.NoCaching
 		} while ( $result );
 
 		$data['post_name'] = $slug;
@@ -213,17 +222,11 @@ class IWCPT {
 	 *
 	 * The one exception is bookmarks, which often _do_ have an actual title.
 	 *
-	 * @param array $data    Filtered data.
-	 * @param array $postarr Original data, mostly.
-	 *
-	 * @return array Filtered data.
+	 * @param  array $data    Filtered data.
+	 * @param  array $postarr Original data, mostly.
+	 * @return array          Updated (slashed) data.
 	 */
 	public function set_title( $data, $postarr ) {
-		// if ( ! empty( $postarr['ID'] ) ) {
-		// 	// Not a new post. Bail.
-		// 	return $data;
-		// }
-
 		if ( ! in_array( $data['post_type'], array( 'iwcpt_like', 'iwcpt_note' ), true ) ) {
 			return $data;
 		}
@@ -250,8 +253,8 @@ class IWCPT {
 		// Avoid double-encoded characters.
 		$title = html_entity_decode( $title, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
 
-		// Wrap lines that start with `> ` in quotes.
-		$title = preg_replace( '/^> (.+)$/m', "\"$1\"", $title ); // phpcs:ignore
+		// Wrap lines that start with `> ` in (double) quotes.
+		$title = preg_replace( '/^> (.+)$/m', "\"$1\"", $title ); // phpcs:ignore Squiz.Strings.DoubleQuoteUsage.NotRequired
 		// Prevent duplicate quotes.
 		$title = str_replace( '""', '"', $title );
 		$title = str_replace( '"“', '"', $title );
