@@ -4,11 +4,11 @@
  * Description:       Easily "IndieWebify" your WordPress site.
  * GitHub Plugin URI: https://github.com/janboddez/indieweb-custom-post-types
  * Author:            Jan Boddez
- * Author URI:        https://janboddez.tech/
+ * Author URI:        https://jan.boddez.net/
  * License:           GNU General Public License v3
  * License URI:       http://www.gnu.org/licenses/gpl-3.0.html
  * Text Domain:       iwcpt
- * Version:           0.1.0
+ * Version:           0.1.1
  *
  * @author  Jan Boddez <jan@janboddez.be>
  * @license http://www.gnu.org/licenses/gpl-3.0.html GNU General Public License v3.0
