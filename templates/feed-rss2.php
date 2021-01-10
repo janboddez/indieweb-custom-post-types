@@ -93,8 +93,8 @@ do_action( 'rss_tag_pre', 'rss2' );
 		?>
 	<item>
 		<?php
-		if ( 'iwcpt_note' !== get_query_var( 'post_type' ) ) :
-			// Show titles for post types other than notes.
+		if ( 'iwcpt_note' !== get_post_type( get_the_ID() ) ) :
+			// Show titles for post types _other than_ notes.
 			?>
 			<title><?php the_title_rss(); ?></title>
 			<?php
