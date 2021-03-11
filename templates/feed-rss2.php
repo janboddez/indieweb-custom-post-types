@@ -99,7 +99,10 @@ do_action( 'rss_tag_pre', 'rss2' );
 			<title><?php the_title_rss(); ?></title>
 			<?php
 		elseif ( '' !== get_post_meta( get_the_ID(), 'mf2_bookmark-of', true ) && apply_filters( 'iwcpt_ignore_bookmark_titles', true ) ) :
-			// Some of these "notes," however, may really be bookmarks, for which we allow an exception.
+			// Some of these "notes," however, may really be bookmarks, for
+			// which we allow an exception.
+			// To do: manually crafted bookmarks do not have this custom field,
+			// which is created by the Micropub plugin, set. Solve?
 			?>
 			<title><?php the_title_rss(); ?></title>
 			<?php
