@@ -112,6 +112,8 @@ class IWCPT {
 
 	/**
 	 * Registers custom taxonomies.
+	 *
+	 * @link https://developer.wordpress.org/reference/functions/register_taxonomy/#comment-2274
 	 */
 	public function register_taxonomies() {
 		$args = array(
@@ -174,7 +176,7 @@ class IWCPT {
 			$post_type = 'iwcpt_note';
 		} elseif ( ! empty( $input['properties']['repost-of'][0] ) ) {
 			$post_type = 'iwcpt_note';
-		} elseif ( ! empty( $input['properties']['in-reply-to'][0] ) && false === stripos( $input['properties']['in-reply-to'][0], $post_content ) ) {
+		} elseif ( ! empty( $input['properties']['in-reply-to'][0] ) && false === stripos( (string) $input['properties']['in-reply-to'][0], $post_content ) ) {
 			$post_type = 'iwcpt_note';
 		} elseif ( ! empty( $input['properties']['content'][0] ) && empty( $input['post_title'] ) ) {
 			$post_type = 'iwcpt_note';
